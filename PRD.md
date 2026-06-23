@@ -29,7 +29,7 @@ Website juga memiliki **halaman admin (backoffice)** yang diakses melalui `/back
 
 | Komponen | Pilihan | Catatan |
 |---|---|---|
-| **Framework Backend** | Laravel 11 (PHP 8.2+) | Naik kelas dari sistem lama CI3 |
+| **Framework Backend** | Laravel 12 (PHP 8.2+) | Naik kelas dari sistem lama CI3 |
 | **Admin Panel** | Filament v3 | Mempercepat pembuatan backoffice |
 | **Database** | MySQL / MariaDB | Disediakan panel hosting |
 | **Templating Frontend** | Blade + Tailwind CSS | Build asset dilakukan di lokal (Vite) |
