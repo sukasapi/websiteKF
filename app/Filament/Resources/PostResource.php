@@ -4,12 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
+use App\Models\PostCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PostResource extends Resource
@@ -62,13 +64,13 @@ class PostResource extends Resource
                 Forms\Components\Select::make('post_category_id')
                     ->label('Kategori')
                     ->relationship('category', 'name')
-                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                    ->getOptionLabelFromRecordUsing(fn (PostCategory $record): string => static::getCategoryOptionLabel($record))
                     ->searchable()
                     ->preload(),
                 Forms\Components\Select::make('author_id')
                     ->label('Penulis')
                     ->relationship('author', 'name')
-                    ->default(fn () => auth()->id())
+                    ->default(fn () => Auth::id())
                     ->searchable()
                     ->preload(),
                 Forms\Components\Select::make('status')
@@ -94,7 +96,10 @@ class PostResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('cover_image')->label('Sampul'),
                 Tables\Columns\TextColumn::make('title')->label('Judul')->searchable(),
-                Tables\Columns\TextColumn::make('category.name')->label('Kategori')->badge(),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Kategori')
+                    ->formatStateUsing(fn (Post $record): ?string => $record->category ? static::getCategoryOptionLabel($record->category) : null)
+                    ->badge(),
                 Tables\Columns\TextColumn::make('status')->label('Status')->badge()
                     ->color(fn (string $state) => $state === 'published' ? 'success' : 'gray'),
                 Tables\Columns\TextColumn::make('published_at')->label('Terbit')->dateTime('d M Y')->sortable(),
@@ -114,6 +119,19 @@ class PostResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    protected static function getCategoryOptionLabel(PostCategory $category): string
+    {
+        foreach ([app()->getLocale(), config('app.fallback_locale')] as $locale) {
+            $label = $category->getTranslation('name', $locale, false);
+
+            if (filled($label)) {
+                return $label;
+            }
+        }
+
+        return collect($category->getTranslations('name'))->first(fn ($label) => filled($label)) ?? (string) $category->getKey();
     }
 
     public static function getPages(): array

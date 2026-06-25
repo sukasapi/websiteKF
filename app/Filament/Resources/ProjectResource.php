@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers\ImagesRelationManager;
 use App\Models\Project;
+use App\Models\ProjectCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
@@ -49,7 +50,7 @@ class ProjectResource extends Resource
                 Forms\Components\Select::make('project_category_id')
                     ->label('Kategori')
                     ->relationship('category', 'name')
-                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->name)
+                    ->getOptionLabelFromRecordUsing(fn (ProjectCategory $record): string => static::getCategoryOptionLabel($record))
                     ->searchable()
                     ->preload(),
                 Forms\Components\TagsInput::make('tech_stack')
@@ -87,7 +88,10 @@ class ProjectResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('cover_image')->label('Sampul'),
                 Tables\Columns\TextColumn::make('title')->label('Judul')->searchable(),
-                Tables\Columns\TextColumn::make('category.name')->label('Kategori')->badge(),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Kategori')
+                    ->formatStateUsing(fn (Project $record): ?string => $record->category ? static::getCategoryOptionLabel($record->category) : null)
+                    ->badge(),
                 Tables\Columns\TextColumn::make('year')->label('Tahun')->sortable(),
                 Tables\Columns\IconColumn::make('is_featured')->label('Unggulan')->boolean(),
             ])
@@ -95,7 +99,12 @@ class ProjectResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('project_category_id')
                     ->label('Kategori')
-                    ->relationship('category', 'name'),
+                    ->options(fn (): array => ProjectCategory::query()
+                        ->get()
+                        ->mapWithKeys(fn (ProjectCategory $category): array => [
+                            $category->getKey() => static::getCategoryOptionLabel($category),
+                        ])
+                        ->all()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -112,6 +121,19 @@ class ProjectResource extends Resource
         return [
             ImagesRelationManager::class,
         ];
+    }
+
+    protected static function getCategoryOptionLabel(ProjectCategory $category): string
+    {
+        foreach ([app()->getLocale(), config('app.fallback_locale')] as $locale) {
+            $label = $category->getTranslation('name', $locale, false);
+
+            if (filled($label)) {
+                return $label;
+            }
+        }
+
+        return collect($category->getTranslations('name'))->first(fn ($label) => filled($label)) ?? (string) $category->getKey();
     }
 
     public static function getPages(): array
