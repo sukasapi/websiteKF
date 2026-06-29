@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <rect x="2" y="2" width="76" height="76" rx="18" fill="#0a1126"/>
+  <rect x="2" y="2" width="76" height="76" rx="18" fill="url(#kf-sheen)" opacity="0.25"/>
+  <!-- K (cobalt) -->
+  <path d="M16 20h9v16.5L40 20h11L33.5 40 51 60H40L25 41.5V60h-9z" fill="#1a5fb4"/>
+  <!-- F mirrored block accent (gold) -->
+  <path d="M55 20h9v8h-9zM55 36h7.5v8H55zM55 52h9v8h-9z" fill="#f5c518"/>
+  <defs>
+    <linearGradient id="kf-sheen" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1a5fb4"/>
+      <stop offset="1" stop-color="#f5c518"/>
+    </linearGradient>
+  </defs>
+</svg>

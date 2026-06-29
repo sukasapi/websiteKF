@@ -8,7 +8,206 @@
 
 [x-cloak] { display: none !important; }
 
+/* ==========================================================================
+   THEME — "Midnight & Gold"  (Kurnia Fedora · software house)
+   Tuned to the brand logo:
+   Primary  : Cobalt Blue   #1A5FB4   (the "K")
+   Accent   : Golden Yellow #F5C518   (the "F")
+   Dark     : Midnight      #0A1126
+   Surface  : Warm white    #FBFAF7
+   The existing views use `indigo-*` / `purple-*` utilities everywhere; we
+   redefine those scales here so the whole site re-skins instantly, then add
+   semantic `brand-*` / `accent-*` tokens for the new 3D components.
+   ========================================================================== */
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Brand — Cobalt Blue (logo "K") */
+    --color-brand-50:  #eef5fc;
+    --color-brand-100: #d4e6f7;
+    --color-brand-200: #aecfef;
+    --color-brand-300: #79b0e2;
+    --color-brand-400: #428ed2;
+    --color-brand-500: #2270bd;
+    --color-brand-600: #1a5fb4;
+    --color-brand-700: #174e94;
+    --color-brand-800: #173f74;
+    --color-brand-900: #16365e;
+    --color-brand-950: #0d2138;
+
+    /* Accent — Golden Yellow (logo "F") */
+    --color-accent-50:  #fff9e6;
+    --color-accent-100: #fef0bf;
+    --color-accent-200: #fde285;
+    --color-accent-300: #fbd24a;
+    --color-accent-400: #f5c518;
+    --color-accent-500: #eab308;
+    --color-accent-600: #ca9504;
+    --color-accent-700: #a16f07;
+    --color-accent-800: #85580d;
+    --color-accent-900: #714811;
+
+    /* Midnight surfaces */
+    --color-midnight:      #0a1126;
+    --color-midnight-soft: #111a38;
+    --color-glow:          #f5c518;
+
+    /* Re-skin legacy `indigo-*` usages → Cobalt Blue */
+    --color-indigo-50:  #eef5fc;
+    --color-indigo-100: #d4e6f7;
+    --color-indigo-200: #aecfef;
+    --color-indigo-300: #79b0e2;
+    --color-indigo-400: #428ed2;
+    --color-indigo-500: #2270bd;
+    --color-indigo-600: #1a5fb4;
+    --color-indigo-700: #174e94;
+    --color-indigo-800: #173f74;
+    --color-indigo-900: #16365e;
+    --color-indigo-950: #0d2138;
+
+    /* Re-skin legacy `purple-*` usages → golden tint (keeps gradients on-theme) */
+    --color-purple-50:  #fff9e6;
+    --color-purple-100: #fef0bf;
+    --color-purple-200: #fde285;
+    --color-purple-500: #eab308;
+    --color-purple-600: #ca9504;
+}
+
+/* Warm-white base surface */
+body { background-color: #fbfaf7; }
+
+/* ==========================================================================
+   3D TOOLKIT — perspective, tilt, depth helpers
+   ========================================================================== */
+@layer utilities {
+    .perspective      { perspective: 1200px; }
+    .perspective-near { perspective: 700px; }
+    .preserve-3d      { transform-style: preserve-3d; }
+    .backface-hidden  { backface-visibility: hidden; }
+    .translate-z-8    { transform: translateZ(2rem); }
+    .translate-z-16   { transform: translateZ(4rem); }
+    .translate-z-24   { transform: translateZ(6rem); }
+}
+
+/* Gradient text (blue → amber) */
+.text-gradient {
+    background-image: linear-gradient(100deg, #79b0e2 0%, #ffffff 38%, #f5c518 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.text-gradient-brand {
+    background-image: linear-gradient(100deg, #1a5fb4 0%, #f5c518 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Glassmorphism card on dark surfaces */
+.glass {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+/* Gold / brand glow */
+.glow-amber { box-shadow: 0 0 0 1px rgba(245,197,24,.28), 0 20px 60px -15px rgba(245,197,24,.55); }
+.glow-brand { box-shadow: 0 0 0 1px rgba(26,95,180,.28), 0 20px 60px -15px rgba(26,95,180,.6); }
+
+/* Animated gradient-mesh background (midnight + cobalt + gold blobs) */
+.gradient-mesh {
+    background-color: #0a1126;
+    background-image:
+        radial-gradient(40% 55% at 18% 18%, rgba(26,95,180,.55) 0%, transparent 60%),
+        radial-gradient(38% 50% at 85% 22%, rgba(245,197,24,.30) 0%, transparent 60%),
+        radial-gradient(45% 60% at 70% 90%, rgba(23,78,148,.5) 0%, transparent 60%),
+        radial-gradient(35% 45% at 12% 88%, rgba(245,197,24,.18) 0%, transparent 60%);
+    background-size: 180% 180%;
+    animation: meshShift 18s ease-in-out infinite alternate;
+}
+
+/* Dotted/line grid overlay (tech feel) */
+.tech-grid {
+    background-image:
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(70% 70% at 50% 40%, #000 0%, transparent 80%);
+    mask-image: radial-gradient(70% 70% at 50% 40%, #000 0%, transparent 80%);
+}
+
+/* Soft floating blobs */
+.blob { filter: blur(48px); border-radius: 9999px; opacity: .6; }
+
+/* Floating animation */
+.float       { animation: float 7s ease-in-out infinite; }
+.float-slow  { animation: float 11s ease-in-out infinite; }
+.float-delay { animation: float 9s ease-in-out infinite; animation-delay: -3s; }
+
+/* Slow spin (orbit rings) */
+.spin-slow { animation: spin 26s linear infinite; }
+
+/* Pulsing glow dot */
+.pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
+
+/* Marquee track (tech-stack strip) */
+.marquee { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+.marquee-group:hover .marquee { animation-play-state: paused; }
+
+/* Sheen sweep on hover */
+.shine { position: relative; overflow: hidden; }
+.shine::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform .8s ease;
+    pointer-events: none;
+}
+.shine:hover::after { transform: translateX(120%); }
+
+/* 3D tilt card — JS feeds the --rx / --ry CSS vars on mousemove */
+.tilt {
+    transform: perspective(900px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg));
+    transition: transform .25s ease;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+/* Scroll reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: .08s; }
+.reveal-delay-2 { transition-delay: .16s; }
+.reveal-delay-3 { transition-delay: .24s; }
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-18px); }
+}
+@keyframes meshShift {
+    0%   { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245,197,24,.55); }
+    50%      { box-shadow: 0 0 0 14px rgba(245,197,24,0); }
+}
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .float, .float-slow, .float-delay, .spin-slow, .pulse-glow,
+    .gradient-mesh, .marquee { animation: none !important; }
+    .reveal { opacity: 1; transform: none; }
 }

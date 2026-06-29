@@ -20,17 +20,22 @@
             @endforeach
         </div>
 
-        <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            @forelse ($projects as $project)
-                <a href="{{ route('portfolio.show', $project) }}" class="group block bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition">
-                    <div class="aspect-video bg-gray-100 overflow-hidden">
+        <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 perspective">
+            @forelse ($projects as $i => $project)
+                <a href="{{ route('portfolio.show', $project) }}"
+                   data-tilt="7"
+                   class="tilt group block bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-2xl transition reveal reveal-delay-{{ ($i % 3) + 1 }}">
+                    <div class="aspect-video overflow-hidden bg-gradient-to-br from-brand-600 via-brand-800 to-midnight relative">
                         @if ($project->cover_image)
-                            <img src="{{ asset('storage/'.$project->cover_image) }}" alt="{{ $project->title }}" class="w-full h-full object-cover group-hover:scale-105 transition">
+                            <img src="{{ asset('storage/'.$project->cover_image) }}" alt="{{ $project->title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        @else
+                            <div class="absolute inset-0 tech-grid opacity-40"></div>
+                            <div class="absolute inset-0 grid place-items-center text-white/90 text-3xl font-bold tracking-tight">{{ strtoupper(substr($project->title, 0, 2)) }}</div>
                         @endif
                     </div>
                     <div class="p-6">
-                        @if ($project->category)<span class="text-xs font-medium text-indigo-600">{{ $project->category->name }}</span>@endif
-                        <h3 class="mt-1 font-semibold text-gray-900">{{ $project->title }}</h3>
+                        @if ($project->category)<span class="text-xs font-semibold uppercase tracking-wide text-accent-600">{{ $project->category->name }}</span>@endif
+                        <h3 class="mt-1 font-semibold text-gray-900 group-hover:text-brand-600 transition">{{ $project->title }}</h3>
                         <p class="mt-1 text-sm text-gray-500">{{ $project->client }} @if($project->year)· {{ $project->year }}@endif</p>
                     </div>
                 </a>

@@ -15,9 +15,14 @@
             @if ($project->year)<span><strong>{{ __('messages.year') }}:</strong> {{ $project->year }}</span>@endif
         </div>
 
-        @if ($project->cover_image)
-            <img src="{{ asset('storage/'.$project->cover_image) }}" alt="{{ $project->title }}" class="mt-8 w-full rounded-2xl">
-        @endif
+        <div class="mt-8 w-full aspect-video rounded-2xl overflow-hidden relative bg-gradient-to-br from-brand-600 via-brand-800 to-midnight shadow-xl">
+            @if ($project->cover_image)
+                <img src="{{ asset('storage/'.$project->cover_image) }}" alt="{{ $project->title }}" class="w-full h-full object-cover">
+            @else
+                <div class="absolute inset-0 tech-grid opacity-40"></div>
+                <div class="absolute inset-0 grid place-items-center text-white/90 text-5xl font-bold tracking-tight">{{ strtoupper(substr($project->title, 0, 2)) }}</div>
+            @endif
+        </div>
 
         <div class="prose prose-indigo max-w-none mt-8 text-gray-700">
             {!! $project->description !!}
@@ -62,10 +67,15 @@
                 <div class="mt-6 grid gap-6 sm:grid-cols-3">
                     @foreach ($related as $rel)
                         <a href="{{ route('portfolio.show', $rel) }}" class="group block">
-                            <div class="aspect-video bg-gray-100 rounded-xl overflow-hidden">
-                                @if ($rel->cover_image)<img src="{{ asset('storage/'.$rel->cover_image) }}" alt="{{ $rel->title }}" class="w-full h-full object-cover group-hover:scale-105 transition">@endif
+                            <div class="aspect-video rounded-xl overflow-hidden relative bg-gradient-to-br from-brand-700 to-midnight">
+                                @if ($rel->cover_image)
+                                    <img src="{{ asset('storage/'.$rel->cover_image) }}" alt="{{ $rel->title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                @else
+                                    <div class="absolute inset-0 tech-grid opacity-40"></div>
+                                    <div class="absolute inset-0 grid place-items-center text-white/80 text-xl font-bold">{{ strtoupper(substr($rel->title, 0, 2)) }}</div>
+                                @endif
                             </div>
-                            <h4 class="mt-3 font-medium text-gray-900 group-hover:text-indigo-600">{{ $rel->title }}</h4>
+                            <h4 class="mt-3 font-medium text-gray-900 group-hover:text-brand-600 transition">{{ $rel->title }}</h4>
                         </a>
                     @endforeach
                 </div>
