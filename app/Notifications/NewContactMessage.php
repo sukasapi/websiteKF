@@ -24,6 +24,8 @@ class NewContactMessage extends Notification
     {
         return (new MailMessage)
             ->subject('Pesan Kontak Baru: '.($this->message->subject ?: '(tanpa subjek)'))
+            // Balas dari inbox langsung tertuju ke pengirim form.
+            ->replyTo($this->message->email, $this->message->name)
             ->greeting('Pesan kontak baru diterima')
             ->line('Nama: '.$this->message->name)
             ->line('Email: '.$this->message->email)

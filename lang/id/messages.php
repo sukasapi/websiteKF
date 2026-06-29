@@ -24,6 +24,34 @@ return [
     'latest_articles' => 'Artikel Terbaru',
     'view_all_portfolio' => 'Lihat Semua Portofolio',
     'view_all_articles' => 'Lihat Semua Artikel',
+    'services_eyebrow' => 'Apa yang kami kerjakan',
+    'services_subtitle' => 'Dari perangkat lunak custom hingga produksi animasi — kami bantu wujudkan ide Anda.',
+    'learn_more' => 'Selengkapnya',
+
+    // Mengapa memilih kami
+    'why_eyebrow' => 'Mengapa Kurnia Fedora',
+    'why_title' => 'Mitra teknologi yang bisa Anda andalkan',
+    'why_subtitle' => 'Kami menggabungkan rekayasa perangkat lunak dan kreativitas untuk hasil yang berdampak.',
+    'why_1_title' => 'Solusi Custom',
+    'why_1_desc' => 'Setiap produk dibangun sesuai kebutuhan bisnis Anda, bukan template seragam.',
+    'why_2_title' => 'Tim Berpengalaman',
+    'why_2_desc' => 'Didukung talenta engineering dan desain yang berpengalaman di berbagai industri.',
+    'why_3_title' => 'Teknologi Modern',
+    'why_3_desc' => 'Memakai stack terkini yang aman, cepat, dan mudah dikembangkan ke depannya.',
+    'why_4_title' => 'Dukungan Penuh',
+    'why_4_desc' => 'Pendampingan dari perencanaan, peluncuran, hingga pemeliharaan jangka panjang.',
+
+    // Cara kami bekerja
+    'process_eyebrow' => 'Cara kami bekerja',
+    'process_title' => 'Proses yang transparan & terukur',
+    'process_1_title' => 'Diskusi',
+    'process_1_desc' => 'Memahami tujuan, kebutuhan, dan ruang lingkup proyek Anda.',
+    'process_2_title' => 'Perancangan',
+    'process_2_desc' => 'Menyusun rancangan, alur, dan prototipe sebelum eksekusi.',
+    'process_3_title' => 'Pengembangan',
+    'process_3_desc' => 'Membangun solusi secara bertahap dengan pembaruan rutin.',
+    'process_4_title' => 'Peluncuran',
+    'process_4_desc' => 'Merilis, memantau, dan mendampingi setelah produk berjalan.',
 
     // Tentang
     'our_team' => 'Tim Kami',

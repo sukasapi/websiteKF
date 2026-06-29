@@ -16,6 +16,7 @@ class SiteController extends Controller
             'services' => Service::where('is_active', true)->orderBy('order')->get(),
             'featuredProjects' => Project::where('is_featured', true)->orderBy('order')->limit(6)->get(),
             'latestPosts' => Post::published()->latest('published_at')->limit(3)->get(),
+            'stats' => $this->siteStats(),
         ]);
     }
 
@@ -24,7 +25,21 @@ class SiteController extends Controller
         return view('site.about', [
             'page' => Page::where('key', 'about')->first(),
             'team' => TeamMember::orderBy('order')->get(),
+            'stats' => $this->siteStats(),
         ]);
+    }
+
+    /**
+     * Statistik nyata dari database untuk ditampilkan di banner angka.
+     */
+    protected function siteStats(): array
+    {
+        return [
+            'projects' => Project::count(),
+            'services' => Service::where('is_active', true)->count(),
+            'posts'    => Post::published()->count(),
+            'team'     => TeamMember::count(),
+        ];
     }
 
     public function services()
