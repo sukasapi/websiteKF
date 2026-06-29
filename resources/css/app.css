@@ -175,13 +175,14 @@ body { background-color: #fbfaf7; }
     will-change: transform;
 }
 
-/* Scroll reveal */
+/* Scroll reveal — uses the independent `translate` property so it can be
+   combined with `.tilt` (which drives `transform`) without conflict. */
 .reveal {
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+    translate: 0 28px;
+    transition: opacity .7s cubic-bezier(.22,1,.36,1), translate .7s cubic-bezier(.22,1,.36,1);
 }
-.reveal.is-visible { opacity: 1; transform: none; }
+.reveal.is-visible { opacity: 1; translate: 0 0; }
 .reveal-delay-1 { transition-delay: .08s; }
 .reveal-delay-2 { transition-delay: .16s; }
 .reveal-delay-3 { transition-delay: .24s; }
@@ -209,5 +210,5 @@ body { background-color: #fbfaf7; }
 @media (prefers-reduced-motion: reduce) {
     .float, .float-slow, .float-delay, .spin-slow, .pulse-glow,
     .gradient-mesh, .marquee { animation: none !important; }
-    .reveal { opacity: 1; transform: none; }
+    .reveal { opacity: 1; translate: 0 0; }
 }

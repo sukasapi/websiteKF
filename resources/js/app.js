@@ -35,6 +35,39 @@ Alpine.start();
         }
     }
 
+    /* ---- Count-up stats ------------------------------------------------ */
+    const counters = document.querySelectorAll('[data-count]');
+    if (counters.length) {
+        const animateCount = (el) => {
+            const target = parseFloat(el.dataset.count) || 0;
+            if (reduceMotion) { el.textContent = target; return; }
+            const duration = 1400;
+            let start = null;
+            const step = (ts) => {
+                if (start === null) start = ts;
+                const p = Math.min((ts - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+                el.textContent = Math.round(target * eased);
+                if (p < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+        };
+
+        if (!('IntersectionObserver' in window)) {
+            counters.forEach(animateCount);
+        } else {
+            const co = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        animateCount(entry.target);
+                        co.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.4 });
+            counters.forEach((el) => co.observe(el));
+        }
+    }
+
     if (reduceMotion) return;
 
     /* ---- 3D tilt toward cursor ----------------------------------------- */
