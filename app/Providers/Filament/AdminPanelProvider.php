@@ -29,8 +29,15 @@ class AdminPanelProvider extends PanelProvider
             ->path('backoffice')
             ->login()
             ->brandName('Kurnia Fedora — Backoffice')
+            ->brandLogo(asset('images/kf-logo.svg'))
+            ->brandLogoHeight('2rem')
+            ->favicon(asset('images/kf-logo.svg'))
             ->colors([
-                'primary' => Color::Amber,
+                // Brand cobalt blue (logo "K")
+                'primary' => Color::hex('#1a5fb4'),
+                // Golden yellow (logo "F") — used for warning/highlight accents
+                'warning' => Color::hex('#f5c518'),
+                'gray'    => Color::Slate,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

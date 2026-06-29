@@ -23,14 +23,17 @@
     @php($locale = app()->getLocale())
 
     {{-- ===== Header ===== --}}
-    <header x-data="{ open: false }" class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
+    <header x-data="{ open: false }" class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
+        <div class="h-1 bg-gradient-to-r from-brand-600 via-accent-500 to-brand-600"></div>
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="{{ route('home') }}" class="flex items-center gap-2 font-bold text-lg text-indigo-600">
+                <a href="{{ route('home') }}" class="flex items-center gap-2 font-bold text-lg">
                     @if(setting('site_logo'))
-                        <img src="{{ asset('storage/'.setting('site_logo')) }}" alt="logo" class="h-8 w-auto">
+                        <img src="{{ asset('storage/'.setting('site_logo')) }}" alt="logo" class="h-9 w-auto">
+                    @else
+                        <img src="{{ asset('images/kf-logo.svg') }}" alt="{{ setting('site_name', 'Kurnia Fedora') }}" class="h-9 w-9 shadow-md rounded-xl">
                     @endif
-                    {{ setting('site_name', 'Kurnia Fedora') }}
+                    <span class="text-gradient-brand">{{ setting('site_name', 'Kurnia Fedora') }}</span>
                 </a>
 
                 {{-- Desktop menu --}}
@@ -90,10 +93,12 @@
     </main>
 
     {{-- ===== Footer ===== --}}
-    <footer class="bg-gray-900 text-gray-300 mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid gap-8 md:grid-cols-3">
+    <footer class="relative bg-midnight text-gray-300 mt-20 overflow-hidden">
+        <div class="h-1 bg-gradient-to-r from-brand-600 via-accent-500 to-brand-600"></div>
+        <div class="blob absolute -top-24 right-10 w-72 h-72 bg-brand-700/50"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid gap-8 md:grid-cols-3 relative">
             <div>
-                <div class="font-bold text-xl text-white mb-3">{{ setting('site_name', 'Kurnia Fedora') }}</div>
+                <div class="font-bold text-xl mb-3 text-gradient">{{ setting('site_name', 'Kurnia Fedora') }}</div>
                 <p class="text-sm text-gray-400">{{ __('messages.footer_about') }}</p>
             </div>
             <div>

@@ -14,9 +14,14 @@
             @if ($post->author) · {{ __('messages.by') }} {{ $post->author->name }}@endif
         </p>
 
-        @if ($post->cover_image)
-            <img src="{{ asset('storage/'.$post->cover_image) }}" alt="{{ $post->title }}" class="mt-8 w-full rounded-2xl">
-        @endif
+        <div class="mt-8 w-full aspect-video rounded-2xl overflow-hidden relative bg-gradient-to-br from-brand-700 to-midnight shadow-xl">
+            @if ($post->cover_image)
+                <img src="{{ asset('storage/'.$post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
+            @else
+                <div class="absolute inset-0 tech-grid opacity-40"></div>
+                <div class="absolute inset-0 grid place-items-center text-white/90 text-5xl font-bold tracking-tight">{{ strtoupper(substr($post->title, 0, 2)) }}</div>
+            @endif
+        </div>
 
         <div class="prose prose-indigo max-w-none mt-8 text-gray-700">
             {!! $post->body !!}
