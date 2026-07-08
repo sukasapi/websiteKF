@@ -16,7 +16,7 @@ class Project extends Model
     protected $fillable = [
         'title', 'slug', 'client', 'year', 'project_category_id',
         'description', 'tech_stack', 'cover_image', 'demo_url',
-        'is_featured', 'order',
+        'embed_script', 'is_featured', 'order',
     ];
 
     protected $casts = [

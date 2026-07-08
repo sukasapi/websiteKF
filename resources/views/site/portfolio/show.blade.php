@@ -39,10 +39,50 @@
             </div>
         @endif
 
-        @if ($project->demo_url)
-            <a href="{{ $project->demo_url }}" target="_blank" rel="noopener" class="mt-8 inline-block px-6 py-3 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
-                {{ __('messages.visit_demo') }} &rarr;
-            </a>
+        @if ($project->demo_url || $project->embed_script)
+            <div class="mt-8 flex flex-wrap gap-3">
+                @if ($project->embed_script)
+                    <button type="button" x-data @click="$dispatch('open-app-modal')" class="px-6 py-3 rounded-lg bg-brand-600 text-white font-medium hover:bg-brand-700 transition">
+                        &#9654; {{ __('messages.run_app') }}
+                    </button>
+                @endif
+                @if ($project->demo_url)
+                    <a href="{{ $project->demo_url }}" target="_blank" rel="noopener" class="inline-block px-6 py-3 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
+                        {{ __('messages.visit_demo') }} &rarr;
+                    </a>
+                @endif
+            </div>
+        @endif
+
+        {{-- Popup aplikasi (embed script) --}}
+        @if ($project->embed_script)
+            <template id="app-embed-source">{!! $project->embed_script !!}</template>
+            <div x-data="{ open: false, loaded: false }"
+                 x-on:open-app-modal.window="
+                    open = true;
+                    if (!loaded) {
+                        loaded = true;
+                        $nextTick(() => {
+                            const tpl = document.getElementById('app-embed-source');
+                            $refs.embedContainer.appendChild(document.createRange().createContextualFragment(tpl.innerHTML));
+                        });
+                    }"
+                 x-on:keydown.escape.window="open = false"
+                 x-show="open"
+                 x-cloak
+                 style="display: none"
+                 class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6">
+                <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="open = false"></div>
+                <div class="relative w-full max-w-5xl h-[85vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+                    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50">
+                        <h3 class="font-semibold text-gray-900 truncate">{{ $project->title }}</h3>
+                        <button type="button" @click="open = false" class="px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-gray-200 transition">
+                            {{ __('messages.close') }} &times;
+                        </button>
+                    </div>
+                    <div x-ref="embedContainer" class="flex-1 overflow-auto bg-gray-900 [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:border-0"></div>
+                </div>
+            </div>
         @endif
 
         {{-- Galeri --}}
