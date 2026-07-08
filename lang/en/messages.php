@@ -62,6 +62,8 @@ return [
     'category' => 'Category',
     'technologies' => 'Technologies',
     'visit_demo' => 'Visit Demo',
+    'run_app' => 'Launch App',
+    'close' => 'Close',
     'related_projects' => 'Related Projects',
     'gallery' => 'Gallery',
 

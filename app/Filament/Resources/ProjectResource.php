@@ -73,6 +73,12 @@ class ProjectResource extends Resource
                     ->directory('projects')
                     ->imageEditor(),
                 Forms\Components\TextInput::make('demo_url')->label('URL Demo')->url(),
+                Forms\Components\Textarea::make('embed_script')
+                    ->label('Script Aplikasi (Popup)')
+                    ->placeholder('<iframe src="https://..." width="100%" height="600"></iframe>')
+                    ->helperText('Tempel kode embed (iframe/script) aplikasi atau game. Jika diisi, halaman detail proyek akan menampilkan tombol untuk menjalankan aplikasi dalam popup.')
+                    ->rows(6)
+                    ->columnSpanFull(),
             ])->columns(2),
 
             Forms\Components\Section::make('Pengaturan')->schema([

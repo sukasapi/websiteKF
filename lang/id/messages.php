@@ -62,6 +62,8 @@ return [
     'category' => 'Kategori',
     'technologies' => 'Teknologi',
     'visit_demo' => 'Kunjungi Demo',
+    'run_app' => 'Jalankan Aplikasi',
+    'close' => 'Tutup',
     'related_projects' => 'Proyek Terkait',
     'gallery' => 'Galeri',
 
